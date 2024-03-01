@@ -1,16 +1,14 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from landmarks_extractor.BlazePoseLandmarksExtractor import BlazePoseLandmarksExtractor
+from pose_analyzer.BlazePoseAnalyzer import BlazePoseAngleAnalyzer
+from pose_visualizer.SquatPoseVisualizer import SquatPoseVisualizer
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    landmarks_extractor = BlazePoseLandmarksExtractor()
+    landmarks_extractor.extract_landmarks('videos/squat.mp4')
+    landmarks_extractor.save_landmarks('data/landmarks/squat.pkl')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    blaze_pose_analyzer = BlazePoseAngleAnalyzer()
+
+    squat_pose_visualizer = SquatPoseVisualizer('videos/squat.mp4', landmarks_extractor.get_landmarks_dictionary())
+    squat_pose_visualizer.visualize_video(show_angles=True)
