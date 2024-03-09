@@ -14,7 +14,7 @@ class BlazePoseLandmarksExtractor(LandmarksExtractor):
             min_tracking_confidence=0.5
         )
 
-    def extract_landmarks(self, video_path: str):
+    def extract_landmarks(self, video_path: str) -> None:
         self._landmarks_dictionary = dict()
 
         cap = cv2.VideoCapture(video_path)
@@ -33,5 +33,7 @@ class BlazePoseLandmarksExtractor(LandmarksExtractor):
                 self._landmarks_dictionary[frame_index] = landmarks
 
             frame_index += 1
+
+        self._total_frames = frame_index - 1
 
         cap.release()

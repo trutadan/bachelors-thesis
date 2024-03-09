@@ -4,11 +4,12 @@ from pose_analyzer.PoseAnalyzer import PoseAnalyzer
 
 
 class PoseVisualizer:
-    def __init__(self, video_path, landmarks_dictionary):
+    def __init__(self, video_path, landmarks_dictionary, key_points_dictionary):
         self._video_path = video_path
         self._landmarks_dictionary = landmarks_dictionary
+        self._key_points_dictionary = key_points_dictionary
 
-    def visualize_video(self, show_angles: bool = False):
+    def visualize_video(self, show_angles: bool = False) -> None:
         cap = cv2.VideoCapture(self._video_path)
         frame_index = 0
 
@@ -32,7 +33,7 @@ class PoseVisualizer:
         cap.release()
         cv2.destroyAllWindows()
 
-    def visualize_frame(self, frame_number: int, show_angles: bool = False):
+    def visualize_frame(self, frame_number: int, show_angles: bool = False) -> None:
         cap = cv2.VideoCapture(self._video_path)
 
         # set the frame to the specific frame number
@@ -55,7 +56,7 @@ class PoseVisualizer:
         cv2.destroyAllWindows()
 
     @staticmethod
-    def draw_angle_between_points(image, point1, point2, point3):
+    def draw_angle_between_points(image, point1, point2, point3) -> None:
         """
         Draws the angle calculated between any three points on the image.
         :param image: The image on which to draw.
@@ -72,10 +73,10 @@ class PoseVisualizer:
         # draw the angle text near the vertex point
         cv2.putText(image, f"{int(angle)} deg", point2_px, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
-    def draw_skeleton(self, image, landmarks):
+    def draw_skeleton(self, image, landmarks: dict) -> None:
         # Draw the skeleton using landmarks
         raise NotImplementedError("draw_skeleton method not implemented")
 
-    def draw_angles(self, image, landmarks):
-        # Draw the computed angles on the skeleton
+    def draw_angles(self, image, landmarks: dict) -> None:
+        # Draw the computed metrics on the skeleton
         raise NotImplementedError("draw_angles method not implemented")

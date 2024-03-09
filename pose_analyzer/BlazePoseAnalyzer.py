@@ -4,15 +4,14 @@ from constants import BLAZE_POSE_LANDMARKS
 from pose_analyzer.PoseAnalyzer import PoseAnalyzer
 
 
-class BlazePoseAngleAnalyzer(PoseAnalyzer):
+class BlazePoseAnalyzer(PoseAnalyzer):
     def __init__(self):
         super().__init__(BLAZE_POSE_LANDMARKS)
 
-    def check_right_foot_knee_alignment(self, landmarks: dict, threshold: float = 0.8) -> bool:
+    def compute_right_foot_knee_alignment(self, landmarks: dict) -> bool:
         """
-        Checks if the foot and knee are pointing in the same direction during a squat.
+        Compute the alignment of the right foot and knee.
         :param landmarks: Dictionary of landmarks.
-        :param threshold: The threshold for the dot product of the two vectors to be considered aligned.
         :return: True if the foot and knee are aligned, False otherwise.
         """
         right_hip = landmarks[self._key_points_dictionary['right hip']]
@@ -29,18 +28,12 @@ class BlazePoseAngleAnalyzer(PoseAnalyzer):
         ankle_to_foot_index_unit = ankle_to_foot_index / np.linalg.norm(ankle_to_foot_index)
 
         # compute the dot product
-        dot_product = np.dot(knee_to_hip_unit, ankle_to_foot_index_unit)
+        return np.dot(knee_to_hip_unit, ankle_to_foot_index_unit)
 
-        # check alignment
-        is_aligned = dot_product > threshold
-
-        return is_aligned
-
-    def check_left_foot_knee_alignment(self, landmarks: dict, threshold: float = 0.8) -> bool:
+    def compute_left_foot_knee_alignment(self, landmarks: dict) -> bool:
         """
-        Checks if the foot and knee are pointing in the same direction during a squat.
+        Compute the alignment of the left foot and knee.
         :param landmarks: Dictionary of landmarks.
-        :param threshold: The threshold for the dot product of the two vectors to be considered aligned.
         :return: True if the foot and knee are aligned, False otherwise.
         """
         left_hip = landmarks[self._key_points_dictionary['left hip']]
@@ -57,9 +50,4 @@ class BlazePoseAngleAnalyzer(PoseAnalyzer):
         ankle_to_foot_index_unit = ankle_to_foot_index / np.linalg.norm(ankle_to_foot_index)
 
         # compute the dot product
-        dot_product = np.dot(knee_to_hip_unit, ankle_to_foot_index_unit)
-
-        # check alignment
-        is_aligned = dot_product > threshold
-
-        return is_aligned
+        return np.dot(knee_to_hip_unit, ankle_to_foot_index_unit)
